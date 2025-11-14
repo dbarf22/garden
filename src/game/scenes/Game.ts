@@ -26,25 +26,28 @@ export class Game extends Scene
      cam.roundPixels = false;
 
     // Pointer controller camera 
-    this.input.on('pointermove', ({ isDown, x, y, prevPosition }) => {
-      if (!isDown) return;
-      cam.scrollX -= (x - prevPosition.x) / cam.zoom;
-      cam.scrollY -= (y - prevPosition.y) / cam.zoom;
+    this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
+      if (!pointer.isDown) return;
+      cam.scrollX -= (pointer.x - pointer.prevPosition.x) / cam.zoom;
+      cam.scrollY -= (pointer.y - pointer.prevPosition.y) / cam.zoom;
     });
 
 
     // Implementation of mouse-wheel zoom
-    this.input.on('wheel', (pointer, gameObjects, deltaY, deltaX) => {
+    this.input.on('wheel', 
+        (
+            pointer : Phaser.Input.Pointer,
+            gameObjects : Phaser.GameObjects.GameObject, 
+            deltaX: number, 
+            deltaY: number
+        ) => {
 
         // Scroll direction:
         // deltaY > 0 => zoom OUT
         // deltaY < 0 => zoom IN
-        if (deltaX !== 0) {
-            cam.zoom -= -1*deltaX * 0.003
-        } else {
-            cam.zoom -= -1*deltaY * 0.003
-        }
-
+        
+        cam.zoom -= -1*deltaY * 0.003
+        
         // Limit zoom value
         cam.zoom = Phaser.Math.Clamp(cam.zoom, 0.25, 3);
     });
