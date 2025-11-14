@@ -9,7 +9,7 @@ const config: Types.Core.GameConfig = {
     height: 720,
 
     scale: {
-        mode: Phaser.Scale.RESIZE,
+        mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
         min: {
           width: 800,
@@ -23,7 +23,7 @@ const config: Types.Core.GameConfig = {
     },
 
     parent: 'game-container',
-    backgroundColor: '#028af8',
+    backgroundColor: 0x383838,
     scene: [
         MainGame
     ]

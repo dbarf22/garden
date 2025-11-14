@@ -1,20 +1,26 @@
 import { Scene } from "phaser";
 import { EventBus } from "../EventBus";
 
-function grassFactory(
-    grassSprite: Phaser.GameObjects.Sprite,
+function tileFactory(
+    sprite: Phaser.GameObjects.Sprite,
     row: number,
     column: number,
     id: number
 ) {
     return {
-        grassSprite,
-        flowerSprite: null,
+        sprite,
         hasFlower: false,
         row,
         column,
         id,
     };
+}
+
+enum TileType {
+    grass = "grass",
+    water = "water",
+    dirt = "dirt",
+    flower = "flower"
 }
 
 export class Game extends Scene {
@@ -24,7 +30,6 @@ export class Game extends Scene {
 
     preload() {
         this.load.setBaseURL("/assets/");
-        this.load.image("map", "sc.png");
         this.load.image("grass", "grass.png");
     }
 
@@ -35,7 +40,7 @@ export class Game extends Scene {
         let windowWidth = window.innerWidth;
         let windowHeight = window.innerHeight;
 
-        cam.setZoom(1);
+        cam.setZoom(.70);
         cam.centerOn(0, 0);
         cam.roundPixels = false;
 
@@ -44,41 +49,12 @@ export class Game extends Scene {
             cam.centerOn(0,0);
         });
 
-
-        // Pointer controller camera
-        this.input.on("pointermove", (pointer: Phaser.Input.Pointer) => {
-            if (!pointer.isDown) return;
-            cam.scrollX -= (pointer.x - pointer.prevPosition.x) / cam.zoom;
-            cam.scrollY -= (pointer.y - pointer.prevPosition.y) / cam.zoom;
-        });
-
-        // Implementation of mouse-wheel zoom
-        this.input.on(
-            "wheel",
-            (
-                pointer: Phaser.Input.Pointer,
-                gameObjects: Phaser.GameObjects.GameObject,
-                deltaX: number,
-                deltaY: number
-            ) => {
-                // Scroll direction:
-                // deltaY > 0 => zoom OUT
-                // deltaY < 0 => zoom IN
-                
-                cam.zoom -= -1 * deltaY * 0.003;
-
-                // Limit zoom value
-                cam.zoom = Phaser.Math.Clamp(cam.zoom, 0.25, 3);
-            }
-        );
-
-
-        // Grass array construction
-        type Tile = ReturnType<typeof grassFactory>;
-        const grassArray: Tile[][] = [];
+        // ground array construction
+        type Tile = ReturnType<typeof tileFactory>;
+        const groundArray: Tile[][] = [];
 
         const ROWS = 10;
-        const COLUMNS = 10;
+        const COLUMNS = 18;
 
         const SPRITE_WIDTH = 80;
         const SPRITE_HEIGHT = 80;
@@ -92,7 +68,7 @@ export class Game extends Scene {
         // Building the grass and the sprites
         let id = 0;
         for (let i = 0; i < COLUMNS; i++) {
-            grassArray[i] = [];
+            groundArray[i] = [];
             for (let j = 0; j < ROWS; j++) {
                 // we calculate the x and y for the sprite
                 
@@ -105,7 +81,7 @@ export class Game extends Scene {
                     sprite.setAlpha(0);
                 });
 
-                grassArray[i][j] = grassFactory(sprite, i, j, id);
+                groundArray[i][j] = tileFactory(sprite, i, j, id);
                 id++;
             }
         }

@@ -6,7 +6,7 @@
 
 <style>
     :global(body) {
-        background-color: #2e3030;
+        background-color: #000000;
         margin: 0;
         padding: 0;
         color: rgba(255, 255, 255, 0.87);
