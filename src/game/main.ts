@@ -24,6 +24,7 @@ const config: Types.Core.GameConfig = {
 
     parent: 'game-container',
     backgroundColor: 0x383838,
+
     scene: [
         MainGame
     ]

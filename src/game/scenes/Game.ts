@@ -45,8 +45,8 @@ export class Game extends Scene {
         cam.roundPixels = false;
 
         // reset camera view when window is resized
-        this.scale.on('resize', () => {
-            cam.centerOn(0,0);
+        this.scale.on("resize", () => {
+            cam.centerOn(0, 0);
         });
 
         // ground array construction
@@ -62,7 +62,7 @@ export class Game extends Scene {
         const gridWidth = SPRITE_WIDTH * COLUMNS;
         const gridHeight = SPRITE_HEIGHT * ROWS;
 
-        let topLeftX = -gridWidth /2
+        let topLeftX = -gridWidth / 2;
         let topLeftY = -gridHeight / 2;
 
         // Building the grass and the sprites
@@ -71,13 +71,13 @@ export class Game extends Scene {
             groundArray[i] = [];
             for (let j = 0; j < ROWS; j++) {
                 // we calculate the x and y for the sprite
-                
+
                 let spriteX = SPRITE_WIDTH / 2 + topLeftX + i * SPRITE_WIDTH;
                 let spriteY = SPRITE_HEIGHT / 2 + topLeftY + j * SPRITE_HEIGHT;
 
                 let sprite = this.add.sprite(spriteX, spriteY, "grass");
                 sprite.setInteractive();
-                sprite.on('pointerdown', () => {
+                sprite.on("pointerdown", () => {
                     sprite.setAlpha(0);
                 });
 
