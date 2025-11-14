@@ -40,10 +40,9 @@ export class Game extends Scene {
         cam.roundPixels = false;
 
         // reset camera view when window is resized
-        this.scale.on('resize', () => {
-            cam.centerOn(0,0);
+        this.scale.on("resize", () => {
+            cam.centerOn(0, 0);
         });
-
 
         // Pointer controller camera
         this.input.on("pointermove", (pointer: Phaser.Input.Pointer) => {
@@ -64,7 +63,7 @@ export class Game extends Scene {
                 // Scroll direction:
                 // deltaY > 0 => zoom OUT
                 // deltaY < 0 => zoom IN
-                
+
                 cam.zoom -= -1 * deltaY * 0.003;
 
                 // Limit zoom value
@@ -72,13 +71,12 @@ export class Game extends Scene {
             }
         );
 
-
         // Grass array construction
         type Tile = ReturnType<typeof grassFactory>;
         const grassArray: Tile[][] = [];
 
         const ROWS = 10;
-        const COLUMNS = 10;
+        const COLUMNS = 20;
 
         const SPRITE_WIDTH = 80;
         const SPRITE_HEIGHT = 80;
@@ -86,7 +84,7 @@ export class Game extends Scene {
         const gridWidth = SPRITE_WIDTH * COLUMNS;
         const gridHeight = SPRITE_HEIGHT * ROWS;
 
-        let topLeftX = -gridWidth /2
+        let topLeftX = -gridWidth / 2;
         let topLeftY = -gridHeight / 2;
 
         // Building the grass and the sprites
@@ -95,13 +93,13 @@ export class Game extends Scene {
             grassArray[i] = [];
             for (let j = 0; j < ROWS; j++) {
                 // we calculate the x and y for the sprite
-                
+
                 let spriteX = SPRITE_WIDTH / 2 + topLeftX + i * SPRITE_WIDTH;
                 let spriteY = SPRITE_HEIGHT / 2 + topLeftY + j * SPRITE_HEIGHT;
 
                 let sprite = this.add.sprite(spriteX, spriteY, "grass");
                 sprite.setInteractive();
-                sprite.on('pointerdown', () => {
+                sprite.on("pointerdown", () => {
                     sprite.setAlpha(0);
                 });
 

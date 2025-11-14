@@ -23,7 +23,7 @@ const config: Types.Core.GameConfig = {
     },
 
     parent: 'game-container',
-    backgroundColor: '#028af8',
+    backgroundColor: '#252525ff',
     scene: [
         MainGame
     ]
